@@ -1,3 +1,7 @@
 {
-	"cSpell.words": ["Muskan"]
+	"cSpell.words": ["Muskan"],
+	"[python]": {
+		"editor.defaultFormatter": "ms-python.black-formatter"
+	},
+	"python.formatting.provider": "none"
 }

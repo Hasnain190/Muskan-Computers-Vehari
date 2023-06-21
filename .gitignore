@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+# backend directories and files
+*.cpython
+*.pyc
+env/*
+__pycache__/*
+__pycache__

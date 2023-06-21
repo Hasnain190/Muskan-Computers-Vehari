@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { Link } from 'react-router-dom';
 
 export default function Cart() {
     const [cartItems, setCartItems] = React.useState<any>([]);
@@ -19,24 +20,28 @@ export default function Cart() {
         fetchData();
     }, []);
     return (
-        <div className=''>
-
+        <div className='grid justify-center'>
+            <h2 className='text-2xl text-start font-bold'>My Cart</h2>
             {cartItems.map((item: any) => (
-                <div className="border-primary border-2  p-4 rounded-sm max-w-lg ">
-                    <div className="flex justify-between">
-                        <div className="image">
-                            <img src="" alt="product image" />
-                        </div>
+                <div className="border-primary border  p-2 rounded-md m-2 max-w-lg relative flex gap-2 items-start">
 
-                        <div className="non-image">
-                            <div className="title">{item?.id}</div>
-                            <div className="price">{item?.price}</div>
-                            <div className="quantity">{item?.quantity}</div>
+                    <div className="image w-1/4 object-scale-down">
+                        <img
+                            className=' '
+                            src="https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-02.jpg" alt="product image" />
+                    </div>
 
+                    <div className="non-image">
+                        <div className="title">
+                            Lenovo Legion
                         </div>
+                        <div className="price">Price: 1212</div>
+                        <div className="quantity">Qty: 23</div>
 
                     </div>
-                    <div className="delete">X</div>
+
+
+                    <div className="delete absolute top-0 right-0 m-1 px-1 border-2 border-primary hover:bg-primary hover:text-white transition rounded-md cursor-default">X</div>
                 </div>
 
 
@@ -49,11 +54,11 @@ export default function Cart() {
 
 
             {/* Order Summary component */}
-            {/* <div className="order-summary bg-lightBlue rounded-sm max-w-lg  p-4 ">
-            <div className=" text-2xl  mb-2">Order Summary</div>
-            <div className="grid gap-2 ">
-            <div className="box  flex justify-between  ">
-            <div className="box-title">Subtotal
+            <div className="order-summary bg-lightBlue rounded-sm max-w-lg  p-4 ">
+                <div className=" text-2xl  mb-2">Order Summary</div>
+                <div className="grid gap-2 ">
+                    <div className="box  flex justify-between  ">
+                        <div className="box-title">Subtotal
                         </div>
                         <div className="subtotal-value">8343
                         </div>
@@ -81,12 +86,13 @@ export default function Cart() {
                     </div>
 
                 </div>
+                <Link to={'/checkout'}>
+                    <button className="custom-button w-3/4">
+                        Checkout
 
-                <button className="custom-button w-3/4">
-                    Checkout
-
-                </button>
-            </div> */}
+                    </button>
+                </Link>
+            </div>
 
 
 
