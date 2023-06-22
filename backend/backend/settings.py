@@ -27,15 +27,11 @@ SECRET_KEY = "django-insecure-$bu4pusb)98y02)oaa86kmz8$dj)fii_a=*2w^lt(u%a9)e(wf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
-CORS_ALLOWED_ORIGINS = [
-    # "http://localhost:8080",
-    # "http://127.0.0.1:8000/",
-]
-# Application definition
-
+CORS_ORIGIN_ALLOW_ALL = True
 INSTALLED_APPS = [
+    "django.contrib.staticfiles",
     "django.contrib.admin",
     "django.contrib.auth",
     "corsheaders",
@@ -44,7 +40,6 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "django.contrib.staticfiles",
     "django_app",
 ]
 REST_FRAMEWORK = {
@@ -91,7 +86,7 @@ ROOT_URLCONF = "backend.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR, "frontend/build")],
+        "DIRS": [os.path.join(BASE_DIR, "frontend/dist")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -116,6 +111,7 @@ DATABASES = {
         "NAME": "muskandb",
         "USER": "postgres",
         "HOST": "localhost",
+        # TODO: encrypt password
         "PASSWORD": "Asd890ml",
         "PORT": "5432",
     }
@@ -156,12 +152,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "static/"
-MEDIA_URL = "images/"
+STATIC_URL = "/assets/"
+MEDIA_URL = "/media/"
+print(BASE_DIR)
+STATICFILES_DIRS = [BASE_DIR / "static", BASE_DIR / "frontend/dist/assets"]
 
-# STATICFILES_DIRS = [BASE_DIR / "static", BASE_DIR / "frontend/build/static"]
-# MEDIA_ROOT = BASE_DIR / "static/images"
-# STATIC_ROOT = BASE_DIR / "staticfiles"
+
+# useful in the command `python manage.py collectstatic`
+MEDIA_ROOT = BASE_DIR / "static/media"
+STATIC_ROOT = BASE_DIR / "assets"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

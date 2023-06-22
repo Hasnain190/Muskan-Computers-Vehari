@@ -20,7 +20,7 @@ def getProducts(request):
     products = Product.objects.filter(name__icontains=query).order_by("-createdAt")
 
     serializer = ProductSerializer(products, many=True)
-    return Response({"products": serializer.data})
+    return Response(serializer.data)
 
 
 @api_view(["GET"])

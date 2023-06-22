@@ -22,7 +22,7 @@ export default function Cart() {
     return (
         <div className='grid justify-center'>
             <h2 className='text-2xl text-start font-bold'>My Cart</h2>
-            {cartItems.map((item: any) => (
+            {cartItems.map((_item: any) => (
                 <div className="border-primary border  p-2 rounded-md m-2 max-w-lg relative flex gap-2 items-start">
 
                     <div className="image w-1/4 object-scale-down">

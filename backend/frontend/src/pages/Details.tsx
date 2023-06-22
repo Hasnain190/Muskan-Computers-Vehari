@@ -1,18 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 
 
-const reviews = { href: '#', average: 4, totalCount: 117 }
 
-function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-}
 
 export default function Details() {
 
     const { id } = useParams()
-    const [product, setProduct] = useState()
+    // TODO
+    const [product, setProduct] = useState<any>()
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -27,7 +24,7 @@ export default function Details() {
         fetchData();
     }, []);
     const itemsInCart: Set<number> = new Set()
-    const addProductToCart = (product) => {
+    const addProductToCart = (product: any) => {
         itemsInCart.add(product.id)
         // alert(product.title + ' added to cart')
         console.log(itemsInCart)

@@ -1,4 +1,3 @@
-import React from 'react'
 
 import Tag from './Tag';
 import { Link } from 'react-router-dom';

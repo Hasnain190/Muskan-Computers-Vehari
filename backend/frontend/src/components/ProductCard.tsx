@@ -1,6 +1,4 @@
-import React from 'react'
-
-export default function ProductCard({ product }) {
+export default function ProductCard({ product }: any) {
     return (
         <div className='h-[290px] w-[227px] rounded-lg p-2 m-4 cursor-pointer hover:'>
             {/* image  */}
