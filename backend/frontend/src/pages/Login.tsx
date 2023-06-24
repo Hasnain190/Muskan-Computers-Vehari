@@ -1,49 +1,53 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-
+import { useState, FormEvent, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { login } from '../features/users/actions';
+import { useAppDispatch, useTypedSelector } from '../app/hooks';
 const Login = () => {
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleEmailChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
-        setEmail(e.target.value);
-    };
+    const { isLoading, isSuccess, error } = useTypedSelector(state => state.userLogin)
+    const navigate = useNavigate()
 
-    const handlePasswordChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
-        setPassword(e.target.value);
-    };
+    const dispatch = useAppDispatch()
+    useEffect(() => {
+        if (isSuccess) {
+            navigate('/')
 
-    const handleSubmit = (e: { preventDefault: () => void; }) => {
+        }
+    }, [isSuccess])
+
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // Perform login logic here
 
 
-        // here
+        // here is the logic for the login
+        dispatch(login({ username, password })
+        )
 
-        // TODO
 
-
-        console.log('Email:', email);
         console.log('Password:', password);
         // Clear form inputs
-        setEmail('');
         setPassword('');
     };
 
     return (
         <div className="flex justify-center items-center h-screen">
+            {isLoading && <p>Loading...</p>}
+            {error && <p>{error}</p>}
+            {isSuccess && <p>Successfully logged in. Redirecting...</p>}
             <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 py-6">
                 <div className="mb-4">
                     <label htmlFor="email" className="block text-gray-700 font-regular mb-2">
                         Email
                     </label>
                     <input
-                        type="email"
-                        id="email"
+                        type="text"
+                        id="username"
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        placeholder="Enter your email"
-                        value={email}
-                        onChange={handleEmailChange}
+                        placeholder="Enter your Username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                         required
                     />
                 </div>
@@ -57,7 +61,7 @@ const Login = () => {
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         placeholder="Enter your password"
                         value={password}
-                        onChange={handlePasswordChange}
+                        onChange={(e) => setPassword(e.target.value)}
                         required
                     />
                 </div>

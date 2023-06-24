@@ -3,10 +3,8 @@ from django_app.views import cart_views as views
 
 
 urlpatterns = [
-    path("", views.getOrders, name="orders"),
-    path("add/", views.addOrderItems, name="orders-add"),
-    path("myorders/", views.getMyOrders, name="myorders"),
-    # path("<str:pk>/deliver/", views.updateOrderToDelivered, name="order-delivered"),
-    path("<str:pk>/", views.getOrderById, name="user-order"),
-    # path('<str:pk>/pay/', views.updateOrderToPaid, name='pay'),
+    path("add/", views.addCartItems, name="cartItems-add"),
+    path("my-cart/", views.getMyCart, name="my-cart"),
+    path("<str:pk>/remove-cart-item/", views.removeCartItems, name="cartItems-delete"),
+    path("<str:pk>/update-quantity/", views.updateQuantity, name="update-quantity"),
 ]

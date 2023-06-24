@@ -10,12 +10,12 @@ export default function ProductCard({ product }: any) {
 
 
                 {/* product name  */}
-                <div className="name font-semibold">{product?.title}</div>
+                <div className="name font-semibold">{product.name}</div>
 
                 {/* product price  */}
-                <div className="price">{product?.price}</div>
+                <div className="price">{product.price}</div>
                 {/* Ratings */}
-                <div className="ratings">{product?.ratings}</div>
+                <div className="ratings">{product.rating}</div>
             </div>
 
         </div>

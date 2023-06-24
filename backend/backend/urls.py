@@ -27,7 +27,7 @@ urlpatterns = [
     path("", TemplateView.as_view(template_name="index.html"), name="index"),
     path("api/products/", include("django_app.urls.product_urls")),
     path("api/users/", include("django_app.urls.user_urls")),
-    # path("api/cart/", include("django_app.urls.cart_urls")),
+    path("api/cart/", include("django_app.urls.cart_urls")),
     path("api/orders/", include("django_app.urls.order_urls")),
     path("api/category/", include("django_app.urls.category_urls")),
 ]
