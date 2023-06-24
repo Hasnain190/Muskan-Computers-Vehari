@@ -2,44 +2,45 @@ import { useState, FormEvent, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../features/users/actions';
 import { useAppDispatch, useTypedSelector } from '../app/hooks';
+import Loader from '../components/Loader';
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
-    const { isLoading, isSuccess, error } = useTypedSelector(state => state.userLogin)
+    const redirect = location.search ? location.search.split('=')[1] : '/'
+    const { isLoading, isSuccess, error, user } = useTypedSelector(state => state.userLogin)
     const navigate = useNavigate()
 
     const dispatch = useAppDispatch()
     useEffect(() => {
-        if (isSuccess) {
-            navigate('/')
+        if (isSuccess && user && user !== null) {
+            navigate(redirect)
 
         }
-    }, [isSuccess])
+    }, [isSuccess, user, redirect])
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
 
-        // here is the logic for the login
         dispatch(login({ username, password })
         )
 
 
-        console.log('Password:', password);
-        // Clear form inputs
+
         setPassword('');
     };
 
     return (
+
         <div className="flex justify-center items-center h-screen">
-            {isLoading && <p>Loading...</p>}
+
+            {isLoading && <Loader />}
             {error && <p>{error}</p>}
             {isSuccess && <p>Successfully logged in. Redirecting...</p>}
             <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 py-6">
                 <div className="mb-4">
                     <label htmlFor="email" className="block text-gray-700 font-regular mb-2">
-                        Email
+                        Username
                     </label>
                     <input
                         type="text"

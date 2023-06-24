@@ -38,6 +38,10 @@ class Category(models.Model):
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    # name
+    # email
+    # phone
+    
     paymentMethod = models.CharField(max_length=200, null=True, blank=True)
     taxPrice = models.DecimalField(
         max_digits=10, decimal_places=2, null=True, blank=True
@@ -53,7 +57,6 @@ class Order(models.Model):
     isDelivered = models.BooleanField(default=False)
     deliveredAt = models.DateTimeField(auto_now_add=False, null=True, blank=True)
     createdAt = models.DateTimeField(auto_now_add=True)
-    _id = models.AutoField(primary_key=True, editable=False)
 
     def __str__(self):
         return str(self.createdAt)
@@ -63,10 +66,9 @@ class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
     order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=200, null=True, blank=True)
-    qty = models.IntegerField(null=True, blank=True, default=0)
+    quantity= models.IntegerField(null=True, blank=True, default=0)
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     image = models.CharField(max_length=200, null=True, blank=True)
-    id = models.AutoField(primary_key=True, editable=False)
 
     def __str__(self):
         return str(self.name)
@@ -102,3 +104,12 @@ class ShippingAddress(models.Model):
 
     def __str__(self):
         return str(self.address)
+
+# For receipts
+class Payment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    dateAndTime = models.DateTimeField(auto_now_add=True)
+    paymentMethod = models.CharField(max_length=200)
+    amount = models.DecimalField(decimal_places=2)
+    payment_status = models.CharField(max_length=50)
+    

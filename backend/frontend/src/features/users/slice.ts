@@ -6,7 +6,7 @@ import type { User } from "../../types";
 
 
 
-const UserFromStorage: User | null = localStorage.getItem("User") !== null
+const UserFromStorage: User | null = localStorage.getItem("user") !== null
     ? JSON.parse(localStorage.getItem("user")!)
     : null;
 
@@ -25,7 +25,6 @@ export const userLoginSlice = createSlice({
         // user login pending/request
         loginRequest(state) {
             state.isLoading = true;
-            state.user = null
 
         },
         // user login success

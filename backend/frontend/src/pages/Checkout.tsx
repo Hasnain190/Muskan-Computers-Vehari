@@ -6,7 +6,32 @@ const Checkout = () => {
             <div className="w-full max-w-lg">
                 <form className="bg-white shadow-md rounded px-8 py-6">
                     <h2 className="text-2xl mb-6">Checkout</h2>
-                    {/* <div className="mb-4">
+                    {/* Order Summary */}
+                    <div className="order-summary bg-lightBlue rounded-sm max-w-lg  p-4 ">
+                        <div className=" text-2xl  mb-2">Items Bought</div>
+                        <div className="grid gap-2 ">
+                            <div className="box  flex justify-between  ">
+                                <div className="box-title">CPU Casing (2x)
+                                </div>
+                                <div className="subtotal-value">10000
+                                </div>
+                            </div>
+                            <div className="box flex justify-between ">
+                                <div className="box-title">Compaq s1922
+                                </div>
+                                <div className="subtotal-value">2323
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div className="mb-4">
                         <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
                             Name
                         </label>
@@ -17,7 +42,31 @@ const Checkout = () => {
                             placeholder="Enter your name"
                             required
                         />
-                    </div> */}
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
+                            Email
+                        </label>
+                        <input
+                            type="email"
+                            id="email"
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            placeholder="Enter your name"
+                            required
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
+                            Phone Number
+                        </label>
+                        <input
+                            type="text"
+                            id="phone"
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            placeholder="Enter your phone number"
+                            required
+                        />
+                    </div>
                     <div className="mb-4">
                         <label htmlFor="address" className="block text-gray-700 font-bold mb-2">
                             Delivered to  Address
@@ -38,9 +87,11 @@ const Checkout = () => {
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required
                         >
-                            <option value="">Select payment method</option>
-                            <option value="credit_card">Credit Card</option>
-                            <option value="paypal">Easy Paisa</option>
+                            <option disabled selected >Select payment method</option>
+                            <option value="cashOnDelivery">Cash on Delivery</option>
+                            <option value="easyPaise">Easy Paisa</option>
+                            <option value="NayaPay">NayaPay</option>
+                            <option value="SadaPay">SadaPay</option>
                         </select>
                     </div>
 

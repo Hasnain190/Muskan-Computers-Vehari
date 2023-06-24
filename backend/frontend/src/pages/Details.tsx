@@ -20,14 +20,15 @@ export default function Details() {
 
     const { product, error, isLoading } = useTypedSelector(state => state.product)
 
-    const { isSuccess, isLoading: isLoadingCart, error: errorCart } = useTypedSelector(state => state.addToCart)
+    const { isLoading: isLoadingCart } = useTypedSelector(state => state.addToCart)
 
-    useEffect(() => {
-        if (isSuccess) {
-            alert("Item added to cart")
+    // useEffect(() => {
+    //     if (isSuccess) {
+    //         alert("Item added to cart")
 
-        }
-    }, [isSuccess])
+    //     }
+    //     if (errorCart) { alert(errorCart) }
+    // }, [isSuccess, errorCart])
 
     const handleChange = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -52,7 +53,7 @@ export default function Details() {
     }
     return (
         <div className="bg-white">
-            {isLoading || isLoadingCart ? <Loader /> : error || errorCart ? <h1>Oops! There is some error {String(error) || JSON.stringify(errorCart)}</h1> :
+            {isLoading || isLoadingCart ? <Loader /> : error ? <h1>Oops! There is some error {(error)}</h1> :
                 <div className="pt-6">
 
 

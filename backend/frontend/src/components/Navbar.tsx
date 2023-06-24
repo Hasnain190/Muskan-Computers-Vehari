@@ -6,24 +6,17 @@ import { Link } from 'react-router-dom';
 import { getCategories } from '../../src/features/category/actions'
 import { useEffect } from 'react';
 import { useAppDispatch, useTypedSelector } from '../app/hooks';
-import { loginSuccess } from '../features/users/slice';
-import { User } from '../types';
-
 export default function Navbar() {
     const dispatch = useAppDispatch();
     const { categories } = useTypedSelector((state) => state.categories);
     const { user } = useTypedSelector((state) => state.userLogin);
+    const { items } = useTypedSelector(state => state.getMyCart)
 
-
+    const itemsInCart = items.length
     useEffect(() => {
         dispatch(getCategories());
+    }, [items])
 
-        dispatch(loginSuccess(user as User))
-
-
-
-    }, [user])
-    console.log(user)
 
     return (
         <nav className=' text-white '>
@@ -52,21 +45,16 @@ export default function Navbar() {
 
 
                 {/* Accounts (sign up/sign in) */}
-                {user ? (
+                {user && user !== null ? (
                     <Link to={'/account/profile'}>
                         <div className="account inline-flex items-center p-2">
                             <i className="text-primary fa-regular fa-user"></i>
                             <div className="tag-line text-primary  px-2">{user?.name}
                             </div>
                             <i className="fa-solid text-primary fa-caret-down"></i>
-
-
                         </div>
                     </Link>
                 ) : (
-
-
-
                     <Link to={'/account/signup'}>
                         <div className="account inline-flex items-center p-2">
                             <i className="text-primary fa-regular fa-user"></i>
@@ -78,6 +66,7 @@ export default function Navbar() {
                 {/* Shopping Cart */}
                 <Link to={'/cart'}>
                     <div className="cart inline-flex items-center">
+                        <p className='text-sm text-white bg-primary rounded-full p-1'>{itemsInCart}</p>
                         <i className="fa-solid text-primary fa-cart-shopping"></i>
                         <div className="tag-line px-2 text-primary">Cart</div>
 

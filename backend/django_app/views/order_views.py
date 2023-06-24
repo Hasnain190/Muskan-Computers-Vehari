@@ -19,14 +19,10 @@ def addOrderItems(request):
 
     orderItems = data["orderItems"]
 
-    if orderItems and len(orderItems) == 0:
-        return Response(
-            {"detail": "No Order Items"}, status=status.HTTP_400_BAD_REQUEST
-        )
-    else:
-        # (1) Create order
+   
+    # (1) Create order
 
-        order = Order.objects.create(
+    order = Order.objects.create(
             user=user,
             paymentMethod=data["paymentMethod"],
             taxPrice=data["taxPrice"],
@@ -36,7 +32,7 @@ def addOrderItems(request):
 
         # (2) Create shipping address
 
-        shipping = ShippingAddress.objects.create(
+    shipping = ShippingAddress.objects.create(
             order=order,
             address=data["shippingAddress"]["address"],
             city=data["shippingAddress"]["city"],
@@ -44,26 +40,26 @@ def addOrderItems(request):
             country=data["shippingAddress"]["country"],
         )
 
-        # (3) Create order items adn set order to orderItem relationship
-        for i in orderItems:
-            product = Product.objects.get(_id=i["product"])
+        # (3) Create order items and set order to orderItem relationship
+    for i in orderItems:
+            product = Product.objects.get(id=i["product"])
 
             item = OrderItem.objects.create(
                 product=product,
                 order=order,
                 name=product.name,
-                qty=i["qty"],
+                quantity=i["quantity"],
                 price=i["price"],
-                image=product.image.url,
+                image=product.image,
             )
 
             # (4) Update stock
 
-            product.countInStock -= item.qty
+            product.countInStock -= item.quantity
             product.save()
 
-        serializer = OrderSerializer(order, many=False)
-        return Response(serializer.data)
+    serializer = OrderSerializer(order, many=False)
+    return Response(serializer.data)
 
 
 @api_view(["GET"])
@@ -74,13 +70,6 @@ def getMyOrders(request):
     serializer = OrderSerializer(orders, many=True)
     return Response(serializer.data)
 
-
-@api_view(["GET"])
-@permission_classes([IsAdminUser])
-def getOrders(request):
-    orders = Order.objects.all()
-    serializer = OrderSerializer(orders, many=True)
-    return Response(serializer.data)
 
 
 @api_view(["GET"])
@@ -103,14 +92,3 @@ def getOrderById(request, pk):
             {"detail": "Order does not exist"}, status=status.HTTP_400_BAD_REQUEST
         )
 
-
-@api_view(["PUT"])
-@permission_classes([IsAuthenticated])
-def updateOrderToPaid(request, pk):
-    order = Order.objects.get(_id=pk)
-
-    order.isPaid = True
-    order.paidAt = datetime.now()
-    order.save()
-
-    return Response("Order was paid")

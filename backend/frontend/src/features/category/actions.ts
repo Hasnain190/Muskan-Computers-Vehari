@@ -24,8 +24,10 @@ export const getCategories = () => async (dispatch: Dispatch) => {
 
 
 
-    } catch (error) {
-        dispatch(getCategoriesFail(error))
+    } catch (error: any) {
+        dispatch(getCategoriesFail(error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message))
 
 
     }
@@ -40,8 +42,10 @@ export const getProductsByCategory = (id: string) => async (dispatch: Dispatch) 
 
 
 
-    } catch (error) {
-        dispatch(getProductsByCategoryFail(error))
+    } catch (error: any) {
+        dispatch(getProductsByCategoryFail(error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message))
 
 
     }

@@ -6,6 +6,7 @@ from backend.settings import MEDIA_URL
 from .models import (
     Cart,
     CartItem,
+    Payment,
     Product,
     Order,
     OrderItem,
@@ -117,3 +118,9 @@ class OrderSerializer(serializers.ModelSerializer):
         user = obj.user
         serializer = UserSerializer(user, many=False)
         return serializer.data
+
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = "__all__"
+

@@ -57,12 +57,13 @@ def removeCartItems(request, pk):
     product = Product.objects.get(id=pk)
     cart = user.cart_set.first()  # Retrieve the first cart for the user
 
-    cartItems = CartItem.objects.filter(product=product, cart=cart)
-
-    if cartItems.exists():
-        cartItems.delete()
+    cartItem = CartItem.objects.filter(product=product, cart=cart)
+    cartItems = CartItem.objects.filter(cart=cart)
+   
+    if cartItem.exists():
+        cartItem.delete()
         message = {"detail": "Cart items removed successfully."}
-        if cartItems.count() == 0:
+        if cartItems.__len__() ==0:
             cart.delete()
         return Response(message, status=status.HTTP_204_NO_CONTENT)
     else:

@@ -19,6 +19,7 @@ import {
 } from './slice'
 import type { User } from '../../types'
 import { Dispatch } from 'redux';
+import { RootState } from '../../app/store';
 
 export const login = (user: User) => async (dispatch: Dispatch) => {
     try {
@@ -73,6 +74,9 @@ export const register = (user: User) => async (dispatch: Dispatch) => {
 
         dispatch(registerSuccess(data))
 
+        dispatch(loginSuccess(data))
+        localStorage.setItem('user', JSON.stringify(data))
+
 
     } catch (error: any) {
         dispatch(registerFail((error.response && error.response.data.detail
@@ -82,29 +86,24 @@ export const register = (user: User) => async (dispatch: Dispatch) => {
 }
 
 
-// TODO 
-// const {
-//     userLogin: { User },  <---
-// } = getState()
-
-export const updateUserProfile = (user: User) => async (dispatch: Dispatch, getState: any) => {
+export const updateUserProfile = (userArg: User) => async (dispatch: Dispatch, getState: () => RootState) => {
     try {
         dispatch(updateProfileRequest())
 
         const {
-            userLogin: { User },
+            userLogin: { user },
         } = getState()
 
         const config = {
             headers: {
                 'Content-type': 'application/json',
-                'Authorization': `JWT ${User.token}`
+                'Authorization': `JWT ${user?.token}`
             }
         }
 
         const { data } = await axios.put(
             `/api/users/profile/update/`,
-            user,
+            userArg,
             config
         )
 

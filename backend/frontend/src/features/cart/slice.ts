@@ -92,7 +92,7 @@ export const getMyCartSlice = createSlice({
         getMyCartSuccess: (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
-            state.items = action.payload.items;
+            state.items = action.payload;
 
         }
         ,
