@@ -112,7 +112,7 @@ export const updateUserProfile = (user: User) => async (dispatch: Dispatch, getS
 
         dispatch(loginSuccess(data))
 
-        localStorage.setItem('User', JSON.stringify(data))
+        localStorage.setItem('user', JSON.stringify(data))
 
     } catch (error: any) {
         dispatch(updateProfileFail(error.response && error.response.data.detail

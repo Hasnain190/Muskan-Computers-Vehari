@@ -45,7 +45,7 @@ export const productSlice = createSlice({
     name: "product",
     initialState: {
         product: {
-            _id: "",
+            id: "",
             name: "",
             description: "",
             price: 0,

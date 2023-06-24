@@ -33,7 +33,7 @@ export interface User {
 }
 
 export interface CartItem {
-    product: number;
+    product: number | Product;
     quantity: number;
 }
 

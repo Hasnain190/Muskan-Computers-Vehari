@@ -17,40 +17,36 @@ def addCartItems(request):
     user = request.user
     data = request.data
 
-    cartItems = data["cartItems"]
+    # (1) Create Cart
 
-    if cartItems and len(cartItems) == 0:
-        return Response({"detail": "No Cart Items"}, status=status.HTTP_400_BAD_REQUEST)
-    else:
-        # (1) Create Cart
+    cart, created = Cart.objects.get_or_create(
+        user=user,
+    )
 
-        cart, created = Cart.objects.get_or_create(
-            user=user,
-        )
-        if not created:
-            message = {"detail": "Item is  already in the cart."}
-            return Response(message, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            # (2) Create order items adn set order to orderItem relationship
-            for i in cartItems:
-                product = Product.objects.get(id=i["product"])
+    # (2) Create order items adn set order to orderItem relationship
 
-                item = CartItem.objects.create(
-                    product=product,
-                    cart=cart,
-                    quantity=i["quantity"],
-                )
+    product = Product.objects.get(id=data["product"])
 
-            serializer = CartSerializer(cart, many=False)
-            return Response(serializer.data)
+    if CartItem.objects.filter(product=product, cart=cart).exists():
+        message = {"detail": "Product already in cart."}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)
+    item = CartItem.objects.create(
+        product=product,
+        cart=cart,
+        quantity=data["quantity"],
+    )
+
+    serializer = CartItemSerializer(item)
+    return Response(serializer.data)
 
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def getMyCart(request):
     user = request.user
-    cart = user.cart_set.all()
-    serializer = CartSerializer(cart, many=True)
+    cart = user.cart_set.first()
+    cartItems = CartItem.objects.filter(cart=cart)
+    serializer = CartItemSerializer(cartItems, many=True)
     return Response(serializer.data)
 
 

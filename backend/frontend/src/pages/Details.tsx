@@ -4,13 +4,15 @@ import { useParams } from 'react-router-dom'
 
 import Loader from '../components/Loader'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { getProduct } from '../features/products/actions'
 import { useAppDispatch, useTypedSelector } from '../app/hooks'
+import { addItemsToCart } from '../features/cart/action'
 
 export default function Details() {
     const { id } = useParams()
     const dispatch = useAppDispatch()
+    const [qty, setQty] = useState(1)
 
     useEffect(() => {
         dispatch(getProduct(id as string))
@@ -18,17 +20,39 @@ export default function Details() {
 
     const { product, error, isLoading } = useTypedSelector(state => state.product)
 
+    const { isSuccess, isLoading: isLoadingCart, error: errorCart } = useTypedSelector(state => state.addToCart)
 
-    const itemsInCart: Set<number> = new Set()
-    const addProductToCart = (product: any) => {
-        itemsInCart.add(product.id)
+    useEffect(() => {
+        if (isSuccess) {
+            alert("Item added to cart")
 
-        console.log(itemsInCart)
+        }
+    }, [isSuccess])
+
+    const handleChange = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+
+        dispatch(addItemsToCart(
+            {
+
+
+                product: Number(id),
+                quantity: qty
+
+
+
+
+            }
+
+
+
+        ))
+
 
     }
     return (
         <div className="bg-white">
-            {isLoading ? <Loader /> : error ? <h1>Oops! There is some error {error}</h1> :
+            {isLoading || isLoadingCart ? <Loader /> : error || errorCart ? <h1>Oops! There is some error {String(error) || JSON.stringify(errorCart)}</h1> :
                 <div className="pt-6">
 
 
@@ -42,29 +66,34 @@ export default function Details() {
                                 className="h-full w-full object-scale-down object-center"
                             />
                         </div>
-                        <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
-                            <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
+                        {product?.image_1 &&
+
+                            <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
+                                <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
+                                    <img
+                                        src={product?.image_1}
+                                        alt={product?.name}
+                                        className="h-full w-full object-cover object-center"
+                                    />
+                                </div>
+                                <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
+                                    <img
+                                        src={product?.image_1}
+                                        alt={product?.name}
+                                        className="h-full w-full object-cover object-center"
+                                    />
+                                </div>
+                            </div>
+                        }
+                        {product?.image_2 &&
+                            <div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
                                 <img
-                                    src={product?.image_1}
+                                    src={product?.image_2}
                                     alt={product?.name}
                                     className="h-full w-full object-cover object-center"
                                 />
                             </div>
-                            <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-                                <img
-                                    src={product?.image_1}
-                                    alt={product?.name}
-                                    className="h-full w-full object-cover object-center"
-                                />
-                            </div>
-                        </div>
-                        <div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
-                            <img
-                                src={product?.image_2}
-                                alt={product?.name}
-                                className="h-full w-full object-cover object-center"
-                            />
-                        </div>
+                        }
                     </div>
 
                     {/* product? info */}
@@ -81,41 +110,14 @@ export default function Details() {
                             <h2 className="sr-only">product information</h2>
                             <p className="text-3xl tracking-tight text-gray-900">{product?.price}</p>
 
-                            {/* Reviews
-                        <div className="mt-6">
-                            <h3 className="sr-only">Reviews</h3>
-                            <div className="flex items-center">
-                                <div className="flex items-center">
-                                    {[0, 1, 2, 3, 4].map((rating) => (
-                                        <StarIcon
-                                            key={rating}
-                                            className={classNames(
-                                                reviews.average > rating ? 'text-gray-900' : 'text-gray-200',
-                                                'h-5 w-5 flex-shrink-0'
-                                            )}
-                                            aria-hidden="true"
-                                        />
-                                    ))}
-                                </div>
-                                <p className="sr-only">{reviews.average} out of 5 stars</p>
-                                <a href={reviews.href} className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
-                                    {reviews.totalCount} reviews
-                                </a>
-                            </div>
-                        </div> */}
-
-                            <form className="mt-10">
 
 
+                            <form className="mt-10" onSubmit={handleChange}>
+
+                                <input type="number" value="1" min="1" max={product.countInStock} onChange={(e) => setQty(Number(e.target.value))} step="1" id="quantity" name="quantity" aria-placeholder="Quantity" className="w-full border-2 border-gray-300 rounded-md p-2 text-center" />
 
                                 <button
-                                    onClick={(e) => {
-                                        e.preventDefault()
-                                        addProductToCart(product)
-                                        // console.log(cart)
 
-
-                                    }}
                                     type="submit"
                                     className="mt-10 flex w-full items-center justify-center rounded-md border border-primary bg-primary  px-8 py-3 text-base font-medium text-white hover:bg-lightBlue hover:text-primary transition focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                 >

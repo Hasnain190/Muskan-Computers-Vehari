@@ -81,9 +81,15 @@ class CartSerializer(serializers.ModelSerializer):
 
 
 class CartItemSerializer(serializers.ModelSerializer):
+    product = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = CartItem
         fields = "__all__"
+
+    def get_product(self, obj):
+        product = ProductSerializer(obj.product, many=False).data
+        return product
 
 
 class OrderSerializer(serializers.ModelSerializer):

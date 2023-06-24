@@ -5,7 +5,11 @@ import { userLoginSlice, userRegisterSlice, userUpdateProfileSlice } from "../..
 import { productsSlice, productSlice } from "../../src/features/products/slice";
 
 import { productsByCategorySlice, categoriesSlice } from "../../src/features/category/slice";
-import { cartSlice } from "../features/cart/slice";
+import {
+    addItemsToCartSlice, removeItemsFromCartSlice, getMyCartSlice,
+    updateItemQuantitySlice
+
+} from "../features/cart/slice";
 
 export const store = configureStore({
     reducer: {
@@ -24,7 +28,11 @@ export const store = configureStore({
         productsByCategory: productsByCategorySlice.reducer,
 
         // cart reducers
-        cart: cartSlice.reducer,
+        addToCart: addItemsToCartSlice.reducer,
+        removeFromCart: removeItemsFromCartSlice.reducer,
+        getMyCart: getMyCartSlice.reducer,
+        updateItemQuantity: updateItemQuantitySlice.reducer,
+
 
         // order reducers
 

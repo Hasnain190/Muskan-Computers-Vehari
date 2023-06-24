@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { CartItem, Cart } from "../../types";
+import { CartItem } from "../../types";
 
 
 export const addItemsToCartSlice = createSlice({
@@ -7,67 +7,137 @@ export const addItemsToCartSlice = createSlice({
     initialState: {
         items: [] as CartItem[],
         totalQuantity: 0,
-        changed: false,
-        IsSuccess: false,
-        IsLoading: false,
+        isChanged: false,
+        isSuccess: false,
+        isLoading: false,
         error: null
 
 
     }
     ,
     reducers: {
-        addItemsToCartRequest: (state, action) => {
-            state.changed = true;
-            state.IsLoading = true;
+        addItemsToCartRequest: (state) => {
+            state.isLoading = true;
 
+
+        },
+        addItemsToCartSuccess: (state, action) => {
+            state.isChanged = true;
             state.items = action.payload;
-            // const newItem = action.payload;
-            // const existingItem = state.items.find(item => item.product === newItem.product);
-            // state.totalQuantity++;
-            // if (!existingItem) {
-            //     state.items = [
-            //         ...state.items,
-
-            //         {
-            //             product: newItem.id,
-            //             quantity: 1
-            //         }
-            //     ]
-
-
-            // }
-
-
+            state.isLoading = false;
+            state.isSuccess = true;
         },
-        removeItemsFromCart: (state, action) => {
-            state.changed = true;
-            state.items = action.payload
-            // const id = action.payload;
-            // const existingItem = state.items.find(item => item.product === id);
-            // state.totalQuantity--;
-            // if (existingItem) {
-            //     state.items = state.items.filter(item => item.product !== id);
+        addItemsToCartFail: (state, action) => {
+            state.isLoading = false;
+            state.isSuccess = false;
+            state.error = action.payload;
+        }
+    }
+}
+)
+export const { addItemsToCartRequest, addItemsToCartSuccess, addItemsToCartFail, } = addItemsToCartSlice.actions;
 
-            // }
+
+
+
+export const removeItemsFromCartSlice = createSlice({
+    name: 'remove-items-from-cart',
+    initialState: {
+        isLoading: false,
+        isSuccess: false,
+        itemRemoved: null,
+        message: null,
+        error: null,
+
+    }
+    , reducers: {
+        removeItemsFromCartRequest: (state) => {
+            state.isLoading = true;
         },
-        getMyCart: (state, action) => {
-            state.changed = false;
-            state.items = action.payload.items;
-
-
+        removeItemsFromCartSuccess: (state, action) => {
+            state.isLoading = false;
+            state.isSuccess = true;
+            // TODO:
+            state.itemRemoved = action.payload.id;
+            state.message = action.payload;
         },
-        updateItemQuantity: (state, action) => {
-            state.changed = true;
+        removeItemsFromCartFail: (state, action) => {
+            state.isLoading = false;
+            state.isSuccess = false;
+            state.message = action.payload;
+            state.error = action.payload;
+        }
+    }
+}
+)
+
+export const { removeItemsFromCartRequest, removeItemsFromCartSuccess, removeItemsFromCartFail } = removeItemsFromCartSlice.actions;
+
+export const getMyCartSlice = createSlice({
+    name: 'get-my-cart',
+    initialState: {
+        isLoading: false,
+        isSuccess: false,
+        items: [] as CartItem[],
+        message: null,
+        error: null
+
+    }
+    , reducers: {
+        getMyCartRequest: (state) => {
+            state.isLoading = true;
+            state.isSuccess = false;
+            state.items = [];
+        },
+        getMyCartSuccess: (state, action) => {
+            state.isLoading = false;
+            state.isSuccess = true;
             state.items = action.payload.items;
 
         }
+        ,
+        getMyCartFail: (state, action) => {
+            state.isLoading = false;
+            state.isSuccess = false;
+            state.message = action.payload;
+            state.error = action.payload;
+        }
+    }
+})
 
+export const { getMyCartRequest, getMyCartSuccess, getMyCartFail } = getMyCartSlice.actions;
 
+export const updateItemQuantitySlice = createSlice({
+    name: 'update-item-quantity',
+    initialState: {
+        isLoading: false,
+        isSuccess: false,
+        message: null,
 
-
-
+        error: null
 
     }
+    , reducers: {
+        updateItemQuantityRequest: (state) => {
+            state.isLoading = true;
+            state.isSuccess = false;
 
+        }
+        , updateItemQuantitySuccess: (state, action) => {
+            state.isLoading = false;
+            state.isSuccess = true;
+            state.message = action.payload;
+
+
+        },
+        updateItemQuantityFail: (state, action) => {
+            state.isLoading = false;
+            state.isSuccess = false;
+            state.message = action.payload;
+            state.error = action.payload;
+        }
+        ,
+    }
 })
-export const { addItemsToCart, removeItemsFromCart, getMyCart, updateItemQuantity } = cartSlice.actions;
+
+export const { updateItemQuantityRequest, updateItemQuantitySuccess, updateItemQuantityFail } = updateItemQuantitySlice.actions;
