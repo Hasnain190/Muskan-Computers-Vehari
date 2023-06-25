@@ -44,7 +44,8 @@ def addCartItems(request):
 @permission_classes([IsAuthenticated])
 def getMyCart(request):
     user = request.user
-    cart = user.cart_set.first()
+    cart = Cart.objects.get(user= user)
+
     cartItems = CartItem.objects.filter(cart=cart)
     serializer = CartItemSerializer(cartItems, many=True)
     return Response(serializer.data)
@@ -55,7 +56,7 @@ def getMyCart(request):
 def removeCartItems(request, pk):
     user = request.user
     product = Product.objects.get(id=pk)
-    cart = user.cart_set.first()  # Retrieve the first cart for the user
+    cart = Cart.objects.get(user= user) 
 
     cartItem = CartItem.objects.filter(product=product, cart=cart)
     cartItems = CartItem.objects.filter(cart=cart)

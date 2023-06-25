@@ -42,3 +42,25 @@ export interface Cart {
 
 
 }
+
+export interface ShippingAddress {
+    address: string;
+    city: string;
+    postalCode: number;
+    country: string;
+}
+
+export interface OrderItem {
+    product: number;
+    quantity: number;
+    price: number;
+}
+
+export interface Order {
+    paymentMethod: string;
+    taxPrice: number;
+    shippingPrice: number;
+    totalPrice: number;
+    shippingAddress: ShippingAddress;
+    orderItems: OrderItem[];
+}

@@ -10,6 +10,7 @@ import {
     updateItemQuantitySlice
 
 } from "../features/cart/slice";
+import { createOrderSlice } from "../features/order/slice";
 
 export const store = configureStore({
     reducer: {
@@ -35,7 +36,7 @@ export const store = configureStore({
 
 
         // order reducers
-
+        createOrder: createOrderSlice.reducer
 
 
     }

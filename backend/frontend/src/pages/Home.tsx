@@ -1,4 +1,3 @@
-
 import ProductCard from '../components/ProductCard'
 import { Link } from 'react-router-dom';
 import { getProducts } from '../features/products/actions';

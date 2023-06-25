@@ -55,9 +55,6 @@ export const productSlice = createSlice({
             image_1: "",
             image_2: "",
 
-
-
-
         },
         isLoading: false,
         error: null,

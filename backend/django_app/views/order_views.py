@@ -13,12 +13,12 @@ from datetime import datetime
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
-def addOrderItems(request):
+def createOrder(request):
     user = request.user
     data = request.data
 
+    
     orderItems = data["orderItems"]
-
    
     # (1) Create order
 
@@ -40,11 +40,11 @@ def addOrderItems(request):
             country=data["shippingAddress"]["country"],
         )
 
-        # (3) Create order items and set order to orderItem relationship
+    # (3) Create order items and set order to orderItem relationship
     for i in orderItems:
-            product = Product.objects.get(id=i["product"])
+        product = Product.objects.get(id=i["product"])
 
-            item = OrderItem.objects.create(
+        item = OrderItem.objects.create(
                 product=product,
                 order=order,
                 name=product.name,
@@ -55,8 +55,8 @@ def addOrderItems(request):
 
             # (4) Update stock
 
-            product.countInStock -= item.quantity
-            product.save()
+    product.countInStock -= item.quantity
+    product.save()
 
     serializer = OrderSerializer(order, many=False)
     return Response(serializer.data)
