@@ -1,10 +1,66 @@
 
 
+
+
+
+
+import { useAppDispatch } from "../app/hooks";
+import { createOrder } from "../features/order/actions";
 const Checkout = () => {
+
+
+
+
+    const dispatch = useAppDispatch()
+
+
+    const orderSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault;
+
+        const order = {
+
+            paymentMethod: ,
+            taxPrice: 2321.33,
+            shippingPrice: 2232,
+            totalPrice: 2321232,
+            shippingAddress: {
+                address: "machhar colony,lahore",
+                city: "lahore",
+                postalCode: 231200,
+                country: "Pakistan"
+            },
+            orderItems: [
+                {
+                    product: 1,
+                    quantity: 1,
+                    price: 12121
+                },
+                {
+                    product: 2,
+                    quantity: 1,
+                    price: 12121
+                }
+            ]
+
+
+        }
+
+
+
+        dispatch(createOrder(order))
+
+
+
+
+
+    }
+
+
+
     return (
         <div className="flex justify-center">
             <div className="w-full max-w-lg">
-                <form className="bg-white shadow-md rounded px-8 py-6">
+                <form onSubmit={orderSubmitHandler} className="bg-white shadow-md rounded px-8 py-6">
                     <h2 className="text-2xl mb-6">Checkout</h2>
                     {/* Order Summary */}
                     <div className="order-summary bg-lightBlue rounded-sm max-w-lg  p-4 ">
