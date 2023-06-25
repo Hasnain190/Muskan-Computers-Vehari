@@ -26,6 +26,8 @@ export interface User {
     _id?: number;
     username?: string;
     email?: string;
+    phone?: string;
+
     password?: string;
     name?: string;
     isAdmin?: boolean;

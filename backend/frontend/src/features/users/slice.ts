@@ -85,7 +85,7 @@ export const userRegisterSlice = createSlice({
 export const { registerRequest, registerFail, registerSuccess } = userRegisterSlice.actions
 
 
-// update user profile
+// update user info
 export const userUpdateProfileSlice = createSlice({
     name: 'update-profile',
     initialState: {

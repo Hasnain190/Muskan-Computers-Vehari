@@ -1,61 +1,69 @@
-
-
-
-
-
-
-import { useAppDispatch } from "../app/hooks";
+import { useState } from "react";
+import { useAppDispatch, useTypedSelector } from "../app/hooks";
 import { createOrder } from "../features/order/actions";
+import calculateTotals from "../components/calculateTotals";
+import { updateUserProfile } from "../features/users/actions";
+
 const Checkout = () => {
 
-
-
-
     const dispatch = useAppDispatch()
+
+    // user 
+    const { user } = useTypedSelector(state => state.userLogin)
+
+
+    const [name, setName] = useState(user?.name || '')
+    const [phone, setPhone] = useState(user?.phone || '')
+    const [email, setEmail] = useState(user?.email || '')
+
+
+    const handleUserInfoChange = () => {
+
+        dispatch(updateUserProfile({ name, phone, email }))
+    }
+
+
+    // cart info
+    const { items } = useTypedSelector(state => state.getMyCart)
+    // 
+
+
+    const [paymentMethod, setPaymentMethod] = useState('')
+    const [address, setAddress] = useState('')
+    const [city, setCity] = useState('')
+    const [province, setProvince] = useState('')
+    const [postalCode, setPostalCode] = useState('')
+    const country = "Pakistan"
 
 
     const orderSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault;
 
         const order = {
+            paymentMethod: paymentMethod,
 
-            paymentMethod: ,
-            taxPrice: 2321.33,
-            shippingPrice: 2232,
-            totalPrice: 2321232,
+            taxPrice: calculateTotals().tax,
+            shippingPrice: calculateTotals().shippingCost,
+            totalPrice: calculateTotals().grandTotal,
+
             shippingAddress: {
-                address: "machhar colony,lahore",
-                city: "lahore",
-                postalCode: 231200,
-                country: "Pakistan"
+                address, city, postalCode, country
+
+
             },
-            orderItems: [
-                {
-                    product: 1,
-                    quantity: 1,
-                    price: 12121
-                },
-                {
-                    product: 2,
-                    quantity: 1,
-                    price: 12121
-                }
-            ]
-
-
+            orderItems: items.map((item) => {
+                return {
+                    // @ts-ignore
+                    product: item.product.id,
+                    // @ts-ignore
+                    price: item.product.price,
+                    quantity: item.quantity
+                };
+            })
         }
-
-
-
+        console.log(order)
         dispatch(createOrder(order))
-
-
-
-
-
     }
-
-
 
     return (
         <div className="flex justify-center">
@@ -66,18 +74,17 @@ const Checkout = () => {
                     <div className="order-summary bg-lightBlue rounded-sm max-w-lg  p-4 ">
                         <div className=" text-2xl  mb-2">Items Bought</div>
                         <div className="grid gap-2 ">
-                            <div className="box  flex justify-between  ">
-                                <div className="box-title">CPU Casing (2x)
+                            {items.map((item) =>
+                                // @ts-ignore
+                                <div key={item?.product.id} className="box  flex justify-between  ">
+                                    {/* @ts-ignore */}
+                                    <div className="box-title">{item?.product.name} {item.quantity}  `
+                                    </div>
+                                    {/* @ts-ignore */}
+                                    <div className="subtotal-value">{item?.product.price}
+                                    </div>
                                 </div>
-                                <div className="subtotal-value">10000
-                                </div>
-                            </div>
-                            <div className="box flex justify-between ">
-                                <div className="box-title">Compaq s1922
-                                </div>
-                                <div className="subtotal-value">2323
-                                </div>
-                            </div>
+                            )}
 
 
 
@@ -92,6 +99,8 @@ const Checkout = () => {
                             Name
                         </label>
                         <input
+                            value={name}
+                            onChange={e => setName(e.target.value)}
                             type="text"
                             id="name"
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -106,6 +115,8 @@ const Checkout = () => {
                         <input
                             type="email"
                             id="email"
+                            value={email}
+                            onChange={e => setEmail(e.target.value)}
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             placeholder="Enter your name"
                             required
@@ -118,6 +129,8 @@ const Checkout = () => {
                         <input
                             type="text"
                             id="phone"
+                            value={phone}
+                            onChange={e => setPhone(e.target.value)}
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             placeholder="Enter your phone number"
                             required
@@ -127,11 +140,55 @@ const Checkout = () => {
                         <label htmlFor="address" className="block text-gray-700 font-bold mb-2">
                             Delivered to  Address
                         </label>
-                        <textarea
+                        <input
                             id="address"
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             placeholder="Enter your address"
+                            onChange={e => setAddress(e.target.value)}
+                            value={address}
                             required
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="province" className="block text-gray-700 font-bold mb-2">
+                            Province
+                        </label>
+                        <input
+                            type="text"
+                            id="province"
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            placeholder="Province"
+                            required
+                            onChange={e => setProvince(e.target.value)}
+                            value={province}
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="city" className="block text-gray-700 font-bold mb-2">
+                            City
+                        </label>
+                        <input
+                            type="text"
+                            id="city"
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            placeholder="Enter city"
+                            required
+                            value={city}
+                            onChange={e => setCity(e.target.value)}
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="postalCode" className="block text-gray-700 font-bold mb-2">
+                            Postal Code
+                        </label>
+                        <input
+                            type="text"
+                            id="postal-code"
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            placeholder="Enter city"
+                            required
+                            value={postalCode}
+                            onChange={e => setPostalCode(e.target.value)}
                         />
                     </div>
                     <div className="mb-6">
@@ -143,11 +200,11 @@ const Checkout = () => {
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required
                         >
-                            <option disabled selected >Select payment method</option>
-                            <option value="cashOnDelivery">Cash on Delivery</option>
-                            <option value="easyPaise">Easy Paisa</option>
-                            <option value="NayaPay">NayaPay</option>
-                            <option value="SadaPay">SadaPay</option>
+                            <option disabled selected value={paymentMethod} onChange={e => setPaymentMethod(e.currentTarget.value)}>Select payment method</option>
+                            <option value="cash-on-Delivery">Cash on Delivery</option>
+                            <option value="easypaise">Easy Paisa</option>
+                            <option value="nayapay">NayaPay</option>
+                            <option value="sadapay">SadaPay</option>
                         </select>
                     </div>
 
@@ -158,20 +215,20 @@ const Checkout = () => {
                             <div className="box  flex justify-between  ">
                                 <div className="box-title">Subtotal
                                 </div>
-                                <div className="subtotal-value">8343
+                                <div className="subtotal-value">{calculateTotals().total}
                                 </div>
                             </div>
                             <div className="box flex justify-between ">
                                 <div className="box-title">Tax
                                 </div>
-                                <div className="subtotal-value">2323
+                                <div className="subtotal-value">{calculateTotals().tax}
                                 </div>
                             </div>
 
                             <div className="box flex justify-between  ">
                                 <div className="box-title">Shipping Cost
                                 </div>
-                                <div className="subtotal-value">2323
+                                <div className="subtotal-value">{calculateTotals().shippingCost}
                                 </div>
                             </div>
 
@@ -179,7 +236,7 @@ const Checkout = () => {
                             <div className="box flex justify-between   border-t-2 border-gray-200 ">
                                 <h2 className="box-title">Grand Total
                                 </h2>
-                                <h2 className="subtotal-value">2323
+                                <h2 className="subtotal-value">{calculateTotals().grandTotal}
                                 </h2>
                             </div>
 

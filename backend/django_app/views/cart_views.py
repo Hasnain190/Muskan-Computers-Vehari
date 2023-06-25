@@ -44,12 +44,15 @@ def addCartItems(request):
 @permission_classes([IsAuthenticated])
 def getMyCart(request):
     user = request.user
-    cart = Cart.objects.get(user= user)
-
-    cartItems = CartItem.objects.filter(cart=cart)
-    serializer = CartItemSerializer(cartItems, many=True)
-    return Response(serializer.data)
-
+    try:
+        cart = Cart.objects.get(user= user)
+        cartItems = CartItem.objects.filter(cart=cart)
+    
+        serializer = CartItemSerializer(cartItems, many=True)
+        return Response(serializer.data)
+    except Cart.DoesNotExist:
+        message= {"detail":"Cart does not exist"}
+        return Response(message,status=status.HTTP_404_NOT_FOUND)
 
 @api_view(["PUT"])
 @permission_classes([IsAuthenticated])
