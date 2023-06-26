@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import { getProduct } from '../features/products/actions'
 import { useAppDispatch, useTypedSelector } from '../app/hooks'
 import { addItemsToCart } from '../features/cart/action'
+import Message from '../components/Message'
 
 export default function Details() {
     const { id } = useParams()
@@ -53,7 +54,7 @@ export default function Details() {
     }
     return (
         <div className="bg-white">
-            {isLoading || isLoadingCart ? <Loader /> : error ? <h1>Oops! There is some error {(error)}</h1> :
+            {isLoading || isLoadingCart ? <Loader /> : error ? <Message type='error' text={error} /> :
                 <div className="pt-6">
 
 
@@ -67,25 +68,25 @@ export default function Details() {
                                 className="h-full w-full object-scale-down object-center"
                             />
                         </div>
-                        {product?.image_1 &&
 
-                            <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
-                                <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-                                    <img
-                                        src={product?.image_1}
-                                        alt={product?.name}
-                                        className="h-full w-full object-cover object-center"
-                                    />
-                                </div>
-                                <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-                                    <img
-                                        src={product?.image_1}
-                                        alt={product?.name}
-                                        className="h-full w-full object-cover object-center"
-                                    />
-                                </div>
+
+                        <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
+                            <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
+                                <img
+                                    src={product?.image}
+                                    alt={product?.name}
+                                    className="h-full w-full object-cover object-center"
+                                />
                             </div>
-                        }
+                            <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
+                                <img
+                                    src={product?.image}
+                                    alt={product?.name}
+                                    className="h-full w-full object-cover object-center"
+                                />
+                            </div>
+                        </div>
+
                         {product?.image_2 &&
                             <div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
                                 <img

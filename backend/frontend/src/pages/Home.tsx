@@ -4,6 +4,7 @@ import { getProducts } from '../features/products/actions';
 import Loader from '../components/Loader';
 import { useEffect } from 'react';
 import { useAppDispatch, useTypedSelector } from '../app/hooks';
+import Message from '../components/Message';
 export default function Home() {
 
     const dispatch = useAppDispatch()
@@ -23,7 +24,7 @@ export default function Home() {
 
             {/* Carousels */}
             {isLoading ? <Loader /> :
-                error ? <h1>Something went wrong {String(error)}</h1> :
+                error ? <Message type={'error'} text={error} /> :
                     products.length === 0 ? <h1>No products</h1> :
 
 

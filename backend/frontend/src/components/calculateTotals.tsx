@@ -2,10 +2,10 @@ import { useEffect } from 'react'
 import { useAppDispatch, useTypedSelector } from '../app/hooks'
 import { getMyCart } from '../features/cart/action'
 import { CartItem } from '../types'
-import { TAX_RATE, SHIPPING_COST } from '../../src/constant'
+import { TAX_RATE, SHIPPING_COST } from '../constant'
 
 
-export default function calculateTotals() {
+export default function CalculateTotals() {
     const dispatch = useAppDispatch()
     const { items: cartItems } = useTypedSelector(state => state.getMyCart)
 

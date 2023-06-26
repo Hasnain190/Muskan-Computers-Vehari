@@ -48,7 +48,7 @@ export interface Cart {
 export interface ShippingAddress {
     address: string;
     city: string;
-    postalCode: number;
+    postalCode: string;
     country: string;
 }
 
