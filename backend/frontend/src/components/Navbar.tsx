@@ -79,7 +79,7 @@ export default function Navbar() {
 
                 {categories?.map((category) =>
 
-                    <Tag key={category.id} category={category.category} />
+                    <Tag key={category.id} category={category.category} id={category.id}/>
 
 
                 )}

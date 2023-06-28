@@ -16,7 +16,7 @@ export default function Home() {
 
     const { products, isLoading, error } = useTypedSelector(state => state.products)
 
-
+const {products:productsByCategory,isLoading:loadingProductsByCategory,error:errorProductsByCateogry} = useTypedSelector(state=>state.productsByCategory)
 
 
     return (
