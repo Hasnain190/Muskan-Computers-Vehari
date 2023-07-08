@@ -14,10 +14,13 @@ export default function Home() {
     let location = useLocation()
     const keyword = location.search
 
+
     useEffect(() => {
         dispatch(getProducts(keyword))
 
     }, [keyword])
+
+
 
     return (
         <div className="container mx-auto">

@@ -39,11 +39,12 @@ export default function Cart() {
                 error ? <Message type='error' text={error} /> :
                     errorRemoval ? <Message type='error' text={errorRemoval} /> :
 
-                        successRemoval ? <Message type='success' text={'The item is removed successfully'} /> : (
+                        successRemoval ? <Message type='success' text={'The item is removed successfully'} /> :
 
 
 
-                            cartItems?.map((item: CartItem) => (
+
+                            cartItems.map((item: CartItem) => (
                                 // @ts-ignore
                                 <div key={item.product.id} className="border-primary border  p-2 rounded-md m-2 max-w-lg relative flex gap-2 items-start">
 
@@ -73,13 +74,13 @@ export default function Cart() {
 
                             )
                             )
-                        )
-
-
             }
 
 
 
+
+
+            {/* Order Summary component */}
             {cartItems.length !== 0 &&
 
                 <div className="order-summary bg-lightBlue rounded-sm max-w-lg  p-4 ">
