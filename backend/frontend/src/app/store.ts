@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import { userLoginSlice, userRegisterSlice, userUpdateProfileSlice } from "../../src/features/users/slice";
+import { userLoginSlice, userProfileSlice, userRegisterSlice, userUpdateProfileSlice } from "../../src/features/users/slice";
 
 import { productsSlice, productSlice } from "../../src/features/products/slice";
 
@@ -10,7 +10,7 @@ import {
     updateItemQuantitySlice
 
 } from "../features/cart/slice";
-import { createOrderSlice } from "../features/order/slice";
+import { createOrderSlice, getMyOrdersSlice } from "../features/order/slice";
 
 export const store = configureStore({
     reducer: {
@@ -18,6 +18,7 @@ export const store = configureStore({
         userLogin: userLoginSlice.reducer,
         userRegister: userRegisterSlice.reducer,
 
+        userProfile: userProfileSlice.reducer,
         userUpdateProfile: userUpdateProfileSlice.reducer,
 
         products: productsSlice.reducer,
@@ -36,8 +37,8 @@ export const store = configureStore({
 
 
         // order reducers
-        createOrder: createOrderSlice.reducer
-
+        createOrder: createOrderSlice.reducer,
+        getMyOrders: getMyOrdersSlice.reducer
 
     }
 

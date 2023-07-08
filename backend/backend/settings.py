@@ -154,7 +154,7 @@ USE_TZ = True
 
 STATIC_URL = "/assets/"
 MEDIA_URL = "/media/"
-print(BASE_DIR)
+
 STATICFILES_DIRS = [BASE_DIR / "static", BASE_DIR / "frontend/dist/assets"]
 
 

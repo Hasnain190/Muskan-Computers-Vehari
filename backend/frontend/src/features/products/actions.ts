@@ -16,11 +16,11 @@ import { Dispatch } from 'redux'
 import type { Product } from '../../types'
 
 
-export const getProducts = () => async (dispatch: Dispatch) => {
+export const getProducts = (keyword: string = '') => async (dispatch: Dispatch) => {
     try {
         dispatch(getProductsRequest())
 
-        const { data } = await axios.get<Product[]>('/api/products/')
+        const { data } = await axios.get<Product[]>(`/api/products${keyword}`)
         dispatch(getProductsSuccess(data))
 
 

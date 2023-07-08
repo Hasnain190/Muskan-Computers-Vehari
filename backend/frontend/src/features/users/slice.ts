@@ -48,6 +48,46 @@ export const userLoginSlice = createSlice({
 export const { loginRequest, loginFail, loginSuccess, logoutAction } = userLoginSlice.actions
 
 
+export const userProfileSlice = createSlice({
+
+    name: 'profile',
+    initialState: {
+        isLoading: false,
+        error: null,
+        profile: UserFromStorage,
+        isSuccess: false,
+
+    },
+
+    reducers: {
+        // user login pending/request
+        profileRequest(state) {
+            state.isLoading = true;
+
+        },
+        // user login success
+        profileSuccess(state, action: PayloadAction<User>) {
+            state.isLoading = false;
+            state.profile = action.payload;
+            state.isSuccess = true;
+        },
+
+        // user login failed
+
+        profileFail(state, action) {
+            state.isLoading = false;
+            state.error = action.payload
+        },
+        profileReset(state) {
+            state.profile = {}
+
+        }
+    }
+})
+
+export const { profileRequest, profileSuccess, profileFail, profileReset } = userProfileSlice.actions
+
+
 
 
 export const userRegisterSlice = createSlice({
@@ -56,7 +96,7 @@ export const userRegisterSlice = createSlice({
     initialState: {
         isLoading: false,
         isSuccess: false,
-        User: {},
+        user: {},
         error: null
 
     },
@@ -70,7 +110,7 @@ export const userRegisterSlice = createSlice({
         registerSuccess(state, action: PayloadAction<User>) {
             state.isLoading = false;
             state.isSuccess = true;
-            state.User = action.payload
+            state.user = action.payload
         },
 
         // user login failed
@@ -89,7 +129,7 @@ export const { registerRequest, registerFail, registerSuccess } = userRegisterSl
 export const userUpdateProfileSlice = createSlice({
     name: 'update-profile',
     initialState: {
-        User: UserFromStorage,
+        user: UserFromStorage,
         isLoading: false,
         error: null,
         isSuccess: false
@@ -101,14 +141,14 @@ export const userUpdateProfileSlice = createSlice({
         },
         updateProfileSuccess(state, action: PayloadAction<User>) {
             state.isLoading = false;
-            state.User = action.payload;
+            state.user = action.payload;
             state.isSuccess = true;
 
         },
         updateProfileFail(state, action) { state.isLoading = false; state.error = action.payload },
 
-
+        updateProfileReset() { },
 
     }
 })
-export const { updateProfileRequest, updateProfileFail, updateProfileSuccess } = userUpdateProfileSlice.actions
+export const { updateProfileRequest, updateProfileFail, updateProfileSuccess, updateProfileReset } = userUpdateProfileSlice.actions

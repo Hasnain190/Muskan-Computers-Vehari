@@ -42,6 +42,14 @@ def registerUser(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getUserProfile(request):
+    user = request.user
+    serializer = UserSerializerWithToken(user,many=False)
+    return Response(serializer.data)
+
+
 @api_view(["PUT"])
 @permission_classes([IsAuthenticated])
 def updateUserProfile(request):

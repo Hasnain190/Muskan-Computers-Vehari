@@ -16,7 +16,7 @@ class Product(models.Model):
     brand = models.CharField(max_length=200, null=True, blank=True)
     category = models.ForeignKey("Category", on_delete=models.CASCADE, null=True)
     description = models.TextField(null=True, blank=True)
-    rating = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+   
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     countInStock = models.IntegerField(null=True, blank=True, default=0)
     createdAt = models.DateTimeField(auto_now_add=True)

@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useTypedSelector } from "../app/hooks";
 import { createOrder } from "../features/order/actions";
-import CalculateTotals from "../components/calculateTotals";
+import CalculateTotals from "../components/CalculateTotals";
 import { updateUserProfile } from "../features/users/actions";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import { useNavigate } from "react-router-dom";
 
 const Checkout = () => {
     const { total, tax, shippingCost, grandTotal } = CalculateTotals()
@@ -21,10 +22,6 @@ const Checkout = () => {
     const [email, setEmail] = useState(user?.email || '')
 
 
-    const handleUserInfoChange = () => {
-
-        dispatch(updateUserProfile({ name, phone, email }))
-    }
 
 
     // cart info
@@ -39,10 +36,11 @@ const Checkout = () => {
     const [postalCode, setPostalCode] = useState('')
     const country = "Pakistan"
 
+    const navigate = useNavigate()
 
     const orderSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault;
-
+        dispatch(updateUserProfile({ name, phone, email }))
         const order = {
             paymentMethod: paymentMethod,
 
@@ -68,6 +66,14 @@ const Checkout = () => {
         console.log(order)
         dispatch(createOrder(order))
     }
+    useEffect(() => {
+        if (!user) {
+            navigate('account/login')
+
+        }
+
+
+    }, [user])
 
     return (
         <div className="flex justify-center">

@@ -8,6 +8,7 @@ import Login from './pages/Login'
 import SignUp from './pages/SignUp'
 import Cart from './pages/Cart'
 import Checkout from './pages/Checkout'
+import Account from './pages/Account'
 
 
 
@@ -23,6 +24,7 @@ function App() {
 
           <Route path='/account/login' element={<Login />} />
           <Route path='/account/signup' element={<SignUp />} />
+          <Route path='/account/profile' element={<Account />} />
 
           <Route path='/cart' element={<Cart />} />
           <Route path='/checkout' element={<Checkout />} />

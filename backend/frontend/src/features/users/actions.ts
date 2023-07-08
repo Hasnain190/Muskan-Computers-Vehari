@@ -8,6 +8,8 @@ import {
 
     logoutAction,
 
+    profileRequest, profileSuccess, profileFail, profileReset,
+
     registerRequest,
     registerFail,
     registerSuccess,
@@ -16,10 +18,12 @@ import {
     updateProfileSuccess,
     updateProfileFail,
 
+
 } from './slice'
 import type { User } from '../../types'
 import { Dispatch } from 'redux';
 import { RootState } from '../../app/store';
+import { getMyOrdersRequest } from '../order/slice';
 
 export const login = (user: User) => async (dispatch: Dispatch) => {
     try {
@@ -48,17 +52,48 @@ export const login = (user: User) => async (dispatch: Dispatch) => {
 export const logout = () => (dispatch: Dispatch) => {
     localStorage.removeItem('user')
     dispatch(logoutAction())
+    dispatch(profileReset())
 
-
+    dispatch(getMyOrdersRequest())
 
 
 }
 
+export const getProfile = () => async (dispatch: Dispatch, getState: () => RootState) => {
 
+    try {
+        dispatch(profileRequest())
+
+        const { userLogin: { user } } = getState()
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `JWT ${user?.token}`
+
+
+            }
+        }
+        const { data } = await axios.get('api/users/profile/', config)
+
+        dispatch(profileSuccess(data))
+
+
+
+
+    } catch (error: any) {
+        dispatch(profileFail((error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message)))
+
+
+    }
+}
 export const register = (user: User) => async (dispatch: Dispatch) => {
 
 
     try {
+        dispatch(registerRequest())
         const config = {
             headers: {
                 'Content-type': 'application/json'
@@ -70,7 +105,6 @@ export const register = (user: User) => async (dispatch: Dispatch) => {
             user,
             config
         )
-        dispatch(registerRequest())
 
         dispatch(registerSuccess(data))
 

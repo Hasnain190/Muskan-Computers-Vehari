@@ -1,5 +1,5 @@
 import ProductCard from '../components/ProductCard'
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { getProducts } from '../features/products/actions';
 import Loader from '../components/Loader';
 import { useEffect } from 'react';
@@ -8,16 +8,16 @@ import Message from '../components/Message';
 export default function Home() {
 
     const dispatch = useAppDispatch()
-    useEffect(() => {
-        dispatch(getProducts())
-
-    }, [])
 
 
     const { products, isLoading, error } = useTypedSelector(state => state.products)
+    let location = useLocation()
+    const keyword = location.search
 
+    useEffect(() => {
+        dispatch(getProducts(keyword))
 
-
+    }, [keyword])
 
     return (
         <div className="container mx-auto">

@@ -59,6 +59,11 @@ export interface OrderItem {
 }
 
 export interface Order {
+    paidAt?: string;
+    isDelivered?: any;
+    _id?: any;
+    createdAt?: any;
+    isPaid?: any;
     paymentMethod: string;
     taxPrice: number;
     shippingPrice: number;

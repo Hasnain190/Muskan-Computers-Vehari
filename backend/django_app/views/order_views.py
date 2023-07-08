@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 
 from django_app.models import Product, Order, OrderItem, ShippingAddress
-from django_app.serializers import ProductSerializer, OrderSerializer
+from django_app.serializers import OrderSerializer
 
 from rest_framework import status
 from datetime import datetime
